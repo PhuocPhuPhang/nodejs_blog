@@ -5,6 +5,9 @@ const morgan = require("morgan"); // HTTP Logger
 const app = express();
 const port = 3000;
 
+// Use static files
+app.use(express.static(path.join(__dirname, "public")))
+
 app.use(morgan("combined")); // HTTP Logger
 
 // Template Engine
@@ -20,7 +23,7 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "resources/views"));
 // console.log('Path: ', path.join(__dirname, 'resources/views'));
 
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
   res.render("home");
 });
 
