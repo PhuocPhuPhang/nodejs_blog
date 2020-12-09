@@ -5,6 +5,11 @@ const morgan = require("morgan"); // HTTP Logger
 const app = express();
 const port = 3000;
 
+const db = require('./config/db');
+
+// Connect to DB
+db.connect();
+
 // Init Router
 const router = require("./routers"); // Trỏ đến file index.js trong folder Routers
 
