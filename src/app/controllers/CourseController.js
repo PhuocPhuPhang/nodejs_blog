@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
 const { mongooseToObject } = require('../../util/mongoose');
+const { render } = require('node-sass');
 class SiteController {
     // [GET] /courses/:slug
     show(req, res, next) {
@@ -27,6 +28,24 @@ class SiteController {
             .save()
             .then(() => res.redirect('/'))
             .catch((error) => {});
+    }
+
+    // [GET] /courses/:id/edit
+    edit(req, res, next) {
+        Course.findById(req.params.id)
+            .then((course) =>
+                res.render('courses/edit', {
+                    course: mongooseToObject(course),
+                }),
+            )
+            .catch(next);
+    }
+
+    // [PUT] /courses/:id
+    update(req, res, next) {
+        Course.updateOne({ _id: req.params.id }, req.body)
+            .then(() => res.redirect('/me/stored/courses'))
+            .catch(next);
     }
 }
 
