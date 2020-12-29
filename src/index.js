@@ -7,10 +7,14 @@ const app = express();
 const port = 3000;
 
 const db = require('./config/db');
+const SortMiddleware = require('./app/middlewares/SortMiddleware');
 app.use(methodOverride('_method'));
 
 // Connect to DB
 db.connect();
+
+// Custom SortMiddleware
+app.use(SortMiddleware);
 
 // Init Router
 const router = require('./routers'); // Trỏ đến file index.js trong folder Routers
@@ -27,6 +31,28 @@ app.engine(
         extname: '.hbs', // Config extname
         helpers: {
             sum: (a, b) => a + b,
+            sortable: (field, sort) => {
+                let sortType = field === sort.column ? sort.type : 'default';
+
+                let icons = {
+                    default: 'oi oi-elevator',
+                    asc: 'oi oi-sort-ascending',
+                    desc: 'oi oi-sort-descending',
+                };
+
+                let types = {
+                    default: 'desc',
+                    asc: 'desc',
+                    desc: 'asc',
+                };
+
+                let icon = icons[sortType];
+                let type = types[sortType];
+
+                return ` <a href="?_sort&column=${field}&type=${type}">
+                <span class="${icon}"></span>
+            </a>`;
+            },
         },
     }),
 );

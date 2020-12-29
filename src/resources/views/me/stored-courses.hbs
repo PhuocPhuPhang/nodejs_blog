@@ -25,7 +25,10 @@
         <thead>
             <tr>
                 <th scope="col" colspan="2">#</th>
-                <th scope="col">Name</th>
+                <th scope="col">
+                    Tên khóa học
+                   {{{ sortable 'name' _sort }}}
+                </th>
                 <th scope="col" colspan="2">Thời gian tạo</th>
             </tr>
         </thead>
@@ -121,10 +124,10 @@
         // Re-render check all submit btn
         function renderCheckAllSubmit() {
             var checkCount = $('input[name="courseIds[]"]:checked').length;
-            if (checkCount > 0 ) {
-                checkAllSubmitBtn.attr('disabled',false);
+            if (checkCount > 0) {
+                checkAllSubmitBtn.attr('disabled', false);
             } else {
-                checkAllSubmitBtn.attr('disabled',true);
+                checkAllSubmitBtn.attr('disabled', true);
             }
         }
     });
