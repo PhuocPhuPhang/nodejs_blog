@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 const db = require('./config/db');
-const SortMiddleware = require('./app/middlewares/SortMiddleware');
+const SortMiddleware = require('./app/middlewares/sortMiddleware-x');
 app.use(methodOverride('_method'));
 
 // Connect to DB
@@ -29,31 +29,7 @@ app.engine(
     'hbs',
     handlebars({
         extname: '.hbs', // Config extname
-        helpers: {
-            sum: (a, b) => a + b,
-            sortable: (field, sort) => {
-                let sortType = field === sort.column ? sort.type : 'default';
-
-                let icons = {
-                    default: 'oi oi-elevator',
-                    asc: 'oi oi-sort-ascending',
-                    desc: 'oi oi-sort-descending',
-                };
-
-                let types = {
-                    default: 'desc',
-                    asc: 'desc',
-                    desc: 'asc',
-                };
-
-                let icon = icons[sortType];
-                let type = types[sortType];
-
-                return ` <a href="?_sort&column=${field}&type=${type}">
-                <span class="${icon}"></span>
-            </a>`;
-            },
-        },
+        helpers: require('./helpers/handlebars'),
     }),
 );
 app.set('view engine', 'hbs');
